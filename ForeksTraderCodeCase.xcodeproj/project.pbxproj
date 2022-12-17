@@ -10,9 +10,10 @@
 		1E07E40A294E0E5700E84BB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E07E409294E0E5700E84BB8 /* AppDelegate.swift */; };
 		1E07E40C294E0E5700E84BB8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E07E40B294E0E5700E84BB8 /* SceneDelegate.swift */; };
 		1E07E40E294E0E5700E84BB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E07E40D294E0E5700E84BB8 /* ViewController.swift */; };
-		1E07E411294E0E5700E84BB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E07E40F294E0E5700E84BB8 /* Main.storyboard */; };
 		1E07E413294E0E5800E84BB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E07E412294E0E5800E84BB8 /* Assets.xcassets */; };
 		1E07E416294E0E5800E84BB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E07E414294E0E5800E84BB8 /* LaunchScreen.storyboard */; };
+		1E07E427294E103C00E84BB8 /* BaseComponents in Frameworks */ = {isa = PBXBuildFile; productRef = 1E07E426294E103C00E84BB8 /* BaseComponents */; };
+		1E07E429294E104000E84BB8 /* DefaultNetworkOperationPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 1E07E428294E104000E84BB8 /* DefaultNetworkOperationPackage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +21,11 @@
 		1E07E409294E0E5700E84BB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E07E40B294E0E5700E84BB8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1E07E40D294E0E5700E84BB8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1E07E410294E0E5700E84BB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E07E412294E0E5800E84BB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1E07E415294E0E5800E84BB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E07E417294E0E5800E84BB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E07E423294E103100E84BB8 /* DefaultNetworkOperationPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DefaultNetworkOperationPackage; sourceTree = "<group>"; };
+		1E07E424294E103100E84BB8 /* BaseComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = BaseComponents; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +33,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E07E429294E104000E84BB8 /* DefaultNetworkOperationPackage in Frameworks */,
+				1E07E427294E103C00E84BB8 /* BaseComponents in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,8 +44,10 @@
 		1E07E3FD294E0E5700E84BB8 = {
 			isa = PBXGroup;
 			children = (
+				1E07E422294E100C00E84BB8 /* Packages */,
 				1E07E408294E0E5700E84BB8 /* ForeksTraderCodeCase */,
 				1E07E407294E0E5700E84BB8 /* Products */,
+				1E07E425294E103C00E84BB8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +64,44 @@
 			children = (
 				1E07E409294E0E5700E84BB8 /* AppDelegate.swift */,
 				1E07E40B294E0E5700E84BB8 /* SceneDelegate.swift */,
-				1E07E40D294E0E5700E84BB8 /* ViewController.swift */,
-				1E07E40F294E0E5700E84BB8 /* Main.storyboard */,
+				1E07E41E294E0ED600E84BB8 /* DataOps */,
+				1E07E41D294E0ED200E84BB8 /* Scenes */,
 				1E07E412294E0E5800E84BB8 /* Assets.xcassets */,
 				1E07E414294E0E5800E84BB8 /* LaunchScreen.storyboard */,
 				1E07E417294E0E5800E84BB8 /* Info.plist */,
 			);
 			path = ForeksTraderCodeCase;
+			sourceTree = "<group>";
+		};
+		1E07E41D294E0ED200E84BB8 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				1E07E40D294E0E5700E84BB8 /* ViewController.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		1E07E41E294E0ED600E84BB8 /* DataOps */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DataOps;
+			sourceTree = "<group>";
+		};
+		1E07E422294E100C00E84BB8 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				1E07E424294E103100E84BB8 /* BaseComponents */,
+				1E07E423294E103100E84BB8 /* DefaultNetworkOperationPackage */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		1E07E425294E103C00E84BB8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +120,10 @@
 			dependencies = (
 			);
 			name = ForeksTraderCodeCase;
+			packageProductDependencies = (
+				1E07E426294E103C00E84BB8 /* BaseComponents */,
+				1E07E428294E104000E84BB8 /* DefaultNetworkOperationPackage */,
+			);
 			productName = ForeksTraderCodeCase;
 			productReference = 1E07E406294E0E5700E84BB8 /* ForeksTraderCodeCase.app */;
 			productType = "com.apple.product-type.application";
@@ -127,7 +168,6 @@
 			files = (
 				1E07E416294E0E5800E84BB8 /* LaunchScreen.storyboard in Resources */,
 				1E07E413294E0E5800E84BB8 /* Assets.xcassets in Resources */,
-				1E07E411294E0E5700E84BB8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,14 +187,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		1E07E40F294E0E5700E84BB8 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1E07E410294E0E5700E84BB8 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1E07E414294E0E5800E84BB8 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,9 +324,7 @@
 				INFOPLIST_FILE = ForeksTraderCodeCase/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,9 +332,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dogukaank.ForeksTraderCodeCase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -320,9 +353,7 @@
 				INFOPLIST_FILE = ForeksTraderCodeCase/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -330,9 +361,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dogukaank.ForeksTraderCodeCase;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -358,6 +392,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1E07E426294E103C00E84BB8 /* BaseComponents */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BaseComponents;
+		};
+		1E07E428294E104000E84BB8 /* DefaultNetworkOperationPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DefaultNetworkOperationPackage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1E07E3FE294E0E5700E84BB8 /* Project object */;
 }
