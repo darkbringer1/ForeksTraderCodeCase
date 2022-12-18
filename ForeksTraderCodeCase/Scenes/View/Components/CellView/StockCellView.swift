@@ -78,6 +78,21 @@ class StockCellView: GenericBaseView<StockCellData> {
         temp.textAlignment = .left
         return temp
     }()
+    override func setupView() {
+        super.setupView()
+        addComponents()
+    }
+    
+    private func addComponents() {
+        addSubview(mainStackView)
+        
+        NSLayoutConstraint.activate([
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+    }
     
     override func loadDataView() {
         super.loadDataView()
@@ -86,8 +101,5 @@ class StockCellView: GenericBaseView<StockCellData> {
 //        directionArrow.image = UIImage(systemName: data)
         stockName.text = data.name
         stockLastUpdated.text = Date().formatted()
-        
-        
     }
-    
 }

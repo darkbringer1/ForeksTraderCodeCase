@@ -26,4 +26,13 @@ class DataFormatter {
     func setStocksResponse(with response: StockResponseModel) {
         stocks = response
     }
+    
+    func getCellData(by index: Int) -> StockCellData? {
+        guard let stockItem = stocks?.l?[index], let name = stockItem.tke, let criteria = stockItem.pdd else { return nil }
+        return StockCellData(direction: "", name: name, criteria: criteria, diff: "")
+    }
+    
+    func numberOfItems() -> Int {
+        return stocks?.l?.count ?? 0
+    }
 }

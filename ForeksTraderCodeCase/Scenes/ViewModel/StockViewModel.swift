@@ -14,12 +14,18 @@ typealias StocksResponseBlock = (Result<StockResponseModel, ErrorResponse>) -> V
 class StockViewModel {
     
     let dataFormatter: DataFormatter
+    var viewState: ((ViewState) -> Void)?
     
     init(dataFormatter: DataFormatter) {
         self.dataFormatter = dataFormatter
     }
     
+    func subscribeToViewState(with completion: @escaping (ViewState) -> Void) {
+        viewState = completion
+    }
+    
     func getSettings() {
+        viewState?(.loading)
         do {
             guard let urlRequest = try? SettingsServiceProvider().returnUrlRequest(headerType: .contentTypeUTF8) else { return }
             debugPrint(urlRequest)
@@ -59,6 +65,7 @@ class StockViewModel {
         switch response {
             case.success(let data):
                 self?.dataFormatter.setStocksResponse(with: data)
+                self?.viewState?(.done)
             case .failure(let error):
 //                debugPrint(error)
                 break
@@ -71,4 +78,24 @@ class StockViewModel {
         let stcsKeys = myPageDefaults.map({ $0.tke ?? "" }).joined(separator: "~")
         return StockRequestModel(stcs: stcsKeys, fields: fieldKeys)
     }
+}
+
+extension StockViewModel: StocksTableViewOutputProtocol {
+    func numberOfItems() -> Int {
+        dataFormatter.numberOfItems()
+    }
+    
+    func cellForItem(at indexPath: IndexPath) -> StockCellData? {
+        dataFormatter.getCellData(by: indexPath.row)
+    }
+    
+    func didSelectItem(at indexPath: IndexPath) {
+        debugPrint("Selected row \(indexPath.row)")
+    }
+}
+
+enum ViewState {
+    case loading
+    case done
+    case error
 }
