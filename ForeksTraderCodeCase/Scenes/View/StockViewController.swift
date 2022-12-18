@@ -35,8 +35,9 @@ class StockViewController: BaseViewController<StockViewModel> {
     
     private func addMainComponent() {
         mainComponent = StocksTableView()
-        mainComponent.output = viewModel
         mainComponent.translatesAutoresizingMaskIntoConstraints = false
+        mainComponent.dataProvider = viewModel
+
         view.addSubview(mainComponent)
 
         NSLayoutConstraint.activate([

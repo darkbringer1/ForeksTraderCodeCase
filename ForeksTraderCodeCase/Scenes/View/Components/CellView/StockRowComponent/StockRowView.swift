@@ -1,5 +1,5 @@
 //
-//  StockCellView.swift
+//  StockRowView.swift
 //  ForeksTraderCodeCase
 //
 //  Created by Doğukaan Kılıçarslan on 17.12.2022.
@@ -8,12 +8,37 @@
 import UIKit
 import BaseComponents
 
-class StockCellView: GenericBaseView<StockCellData> {
+class StockRowData {
+    private(set) var direction: String
+    private(set) var name: String
+    private(set) var criteria: String
+    private(set) var diff: String
+    
+    init(direction: String,
+         name: String,
+         criteria: String,
+         diff: String) {
+        self.direction = direction
+        self.name = name
+        self.criteria = criteria
+        self.diff = diff
+    }
+}
+
+class StockRowView: GenericBaseView<StockRowData> {
+    private lazy var containerView: UIView = {
+        let temp = UIView()
+        temp.translatesAutoresizingMaskIntoConstraints = false
+        temp.backgroundColor = .white
+        return temp
+    }()
     
     private lazy var mainStackView: UIStackView = {
-        let temp = UIStackView(arrangedSubviews: [directionArrow, stockNameStack, criteriaLabel, diffLabel])
+        let temp = UIStackView(arrangedSubviews: [stockNameStack, criteriaLabel, diffLabel])
         temp.translatesAutoresizingMaskIntoConstraints = false
         temp.axis = .horizontal
+        temp.alignment = .fill
+        temp.spacing = 16
         return temp
     }()
     
@@ -78,28 +103,33 @@ class StockCellView: GenericBaseView<StockCellData> {
         temp.textAlignment = .left
         return temp
     }()
+    
     override func setupView() {
         super.setupView()
         addComponents()
     }
     
     private func addComponents() {
-        addSubview(mainStackView)
+        addSubview(containerView)
+        containerView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
-    }
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            containerView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            
+            mainStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            mainStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+            mainStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
+            mainStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16)
+        ])}
     
     override func loadDataView() {
         super.loadDataView()
         guard let data = getData() else { return }
-        
 //        directionArrow.image = UIImage(systemName: data)
         stockName.text = data.name
-        stockLastUpdated.text = Date().formatted()
+//        stockLastUpdated.text = Date().formatted()
     }
 }

@@ -9,24 +9,24 @@ import UIKit
 import BaseComponents
 
 
-protocol StocksTableViewOutputProtocol: AnyObject {
+protocol StocksTableViewDataProvider: AnyObject {
     func numberOfItems() -> Int
-    func cellForItem(at indexPath: IndexPath) -> StockCellData?
+    func cellForItem(at indexPath: IndexPath) -> StockRowData?
     func didSelectItem(at indexPath: IndexPath)
 }
 
 class StocksTableView: BaseView {
-    
-    weak var output: StocksTableViewOutputProtocol?
+    weak var dataProvider: StocksTableViewDataProvider?
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 250
         tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: StocksTableViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .darkGray
 //        tableView.refreshControl = UIRefreshControl()
 //        tableView.refreshControl?.addTarget(self, action: #selector(reloadTableViewData), for: .valueChanged)
         return tableView
@@ -65,13 +65,18 @@ class StocksTableView: BaseView {
 
 extension StocksTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        output?.numberOfItems() ?? 0
+        dataProvider?.numberOfItems() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let data = output?.cellForItem(at: indexPath),
-              let cell = tableView.dequeueReusableCell(withIdentifier: StocksTableViewCell.identifier, for: indexPath) as? StocksTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: StocksTableViewCell.identifier,
+                                                       for: indexPath) as? StocksTableViewCell,
+                let data = dataProvider?.cellForItem(at: indexPath) else { return UITableViewCell() }
         cell.setRowData(data: data)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dataProvider?.didSelectItem(at: indexPath)
     }
 }

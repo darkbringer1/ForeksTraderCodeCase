@@ -80,12 +80,12 @@ class StockViewModel {
     }
 }
 
-extension StockViewModel: StocksTableViewOutputProtocol {
+extension StockViewModel: StocksTableViewDataProvider {
     func numberOfItems() -> Int {
         dataFormatter.numberOfItems()
     }
     
-    func cellForItem(at indexPath: IndexPath) -> StockCellData? {
+    func cellForItem(at indexPath: IndexPath) -> StockRowData? {
         dataFormatter.getCellData(by: indexPath.row)
     }
     
