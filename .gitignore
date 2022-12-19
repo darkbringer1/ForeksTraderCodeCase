@@ -1,0 +1,31 @@
+## Mac File Store
+.DS_Store
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Certificates
+*.cer
+*.mobileprovision
+
+## User settings
+xcuserdata/
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+## Dependency Cache
+SourcePackages
+
+## Fastlane Files
+.idea/
+fastlane/README.md
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output
+fastlane/.cache
+*.resolved
