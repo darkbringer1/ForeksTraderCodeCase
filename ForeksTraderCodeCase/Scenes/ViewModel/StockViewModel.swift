@@ -13,14 +13,14 @@ typealias StocksResponseBlock = (Result<StockResponseModel, ErrorResponse>) -> V
 
 class StockViewModel {
     
-    private let dataFormatter: DataFormatter
+    private let dataFormatter: DataFormatterProtocol
     private var viewState: ((ViewState) -> Void)?
     private var requestModel: StockRequestModel?
     private var firstQ: String?
     private var secondQ: String?
     private var timer: Timer?
     
-    init(dataFormatter: DataFormatter) {
+    init(dataFormatter: DataFormatterProtocol) {
         self.dataFormatter = dataFormatter
     }
     
@@ -46,7 +46,7 @@ class StockViewModel {
             case .success(let data):
 //                debugPrint(data)
                 self?.dataFormatter.setSettingsResponse(with: data)
-                self?.viewState?(.done)
+                self?.viewState?(.headerDone)
             case .failure(let error):
 //                debugPrint(error)
                 break
@@ -77,7 +77,7 @@ class StockViewModel {
         }
     }
     
-    private func getRequestModel(row: Int, in component: Int) -> StockRequestModel? {
+    private func getRequestModel(row: Int) -> StockRequestModel? {
         guard let myPageDefaults = dataFormatter.getMyPageDefaults(), let firstQ = firstQ, let secondQ = secondQ else { return nil }
         let stcsKeys = myPageDefaults.map({ $0.tke ?? "" }).joined(separator: "~")
         return StockRequestModel(stcs: stcsKeys, fields: firstQ + "," + secondQ)
@@ -99,6 +99,7 @@ extension StockViewModel: StocksTableViewDataProvider {
     func didSelectItem(at indexPath: IndexPath) {
         debugPrint("Selected row \(indexPath.row)")
     }
+    
     func startTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
@@ -129,7 +130,7 @@ extension StockViewModel: StocksHeaderDataProvider {
             default:
                 break
         }
-        requestModel = getRequestModel(row: row, in: component)
+        requestModel = getRequestModel(row: row)
         getStocks()
     }
 }
@@ -138,4 +139,5 @@ enum ViewState {
     case loading
     case done
     case error
+    case headerDone
 }

@@ -71,7 +71,7 @@ class StockRowView: GenericBaseView<StockRowData> {
         temp.numberOfLines = 0
         temp.contentMode = .center
         temp.textAlignment = .left
-        temp.font = UIFont.systemFont(ofSize: 14, weight: .heavy)
+        temp.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return temp
     }()
     

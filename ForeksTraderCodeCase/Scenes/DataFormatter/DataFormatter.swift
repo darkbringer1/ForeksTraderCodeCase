@@ -6,8 +6,23 @@
 //
 
 import Foundation
-
-class DataFormatter {
+protocol DataFormatterProtocol {
+    func setSettingsResponse(with response: PageSettingsResponseModel)
+    func getMyPagePairs() -> [Mypage]?
+    func getMyPageDefaults() -> [MypageDefault]?
+    func setStocksResponse(with response: StockResponseModel)
+    func getCellData(by index: Int, leftKey: String, rightKey: String) -> StockRowData?
+    func getStockDetail(index: Int, forkey: String) -> String
+    func numberOfItems() -> Int
+    func getPickerData() -> [Mypage]?
+    func getPickerCount() -> Int?
+    func getPickerTitles(for row: Int) -> String?
+    func firstSelected(row: Int) -> String?
+    func secondSelected(row: Int) -> String?
+    func selectedPickerData(row: Int, in component: Int) -> (String, String)
+    func calculateStockState(by index: Int) -> StockState
+}
+class DataFormatter: DataFormatterProtocol {
     private var pageSettings: PageSettingsResponseModel?
     private var stocks: StockResponseModel?
     private var newStocks: StockResponseModel?
@@ -40,7 +55,7 @@ class DataFormatter {
         let right = stockItem[index][rightKey] ?? ""
         let name = stockItem[index]["tke"] ?? ""
         let date = stockItem[index]["clo"] ?? ""
-        let state = calculateStockState(by: index, leftKey: leftKey, rightKey: rightKey)
+        let state = calculateStockState(by: index)
         return StockRowData(name: name, leftData: left, rightData: right, date: date, state: state)
     }
     
@@ -88,32 +103,21 @@ class DataFormatter {
         return (one, two)
     }
     
-    func calculateStockState(by index: Int, leftKey: String, rightKey: String) -> StockState {
+    func calculateStockState(by index: Int) -> StockState {
         guard let oldStockItem = stocks?.details,
               let newStockItem = newStocks?.details else { return .stable }
         let formatter = NumberFormatter()
         formatter.locale = Locale(identifier: "tr_TR")
-        let oldLeft = formatter.number(from: oldStockItem[index][leftKey] ?? "") ?? 0
-        let oldRight = formatter.number(from: oldStockItem[index][rightKey] ?? "")
-        let newLeft = formatter.number(from: newStockItem[index][leftKey] ?? "") ?? 0
-        let newRight = formatter.number(from: newStockItem[index][rightKey] ?? "")
+        let oldLeft = formatter.number(from: oldStockItem[index]["las"] ?? "") ?? 0
+        let newLeft = formatter.number(from: newStockItem[index]["las"] ?? "") ?? 0
         
-        let compare = oldLeft.compare(newLeft)
-        switch compare {
-            case .orderedAscending:
-                return .increasing
-            case .orderedSame:
-                return .stable
-            case .orderedDescending:
-                return .decreasing
+        if newLeft.doubleValue < oldLeft.doubleValue {
+            return .decreasing
+        } else if newLeft.doubleValue > oldLeft.doubleValue {
+            return .increasing
+        } else {
+            return .stable
         }
-//        if newLeft < oldLeft || newRight < oldRight {
-//            return .decreasing
-//        } else if newLeft > oldLeft || newRight > oldRight {
-//            return .increasing
-//        } else {
-//            return .stable
-//        }
     }
 }
 

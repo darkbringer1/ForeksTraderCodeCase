@@ -13,19 +13,11 @@ class StockViewController: BaseViewController<StockViewModel> {
     private var mainComponent: StocksTableView!
     private var headerComponent: StocksHeaderView!
     
-    private lazy var spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView()
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        spinner.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 44)
-        return spinner
-    }()
-    
     override func prepareViewControllerConfigurations() {
         super.prepareViewControllerConfigurations()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
         addTableView()
         addHeaderView()
-        addSpinner()
         subscribeToViewModelListeners()
     }
     
@@ -59,17 +51,8 @@ class StockViewController: BaseViewController<StockViewModel> {
         ])
     }
     
-    private func addSpinner() {
-        view.addSubview(spinner)
-        
-        NSLayoutConstraint.activate([
-            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
     private func subscribeToViewModelListeners() {
         viewModel.getSettings()
-        viewModel.startTimer()
         viewModel.subscribeToViewState { [weak self] state in
             switch state {
                 case .loading:
@@ -79,6 +62,10 @@ class StockViewController: BaseViewController<StockViewModel> {
                     self?.headerComponent.reloadPickerData()
                 case .error:
                     break
+                case .headerDone:
+                    self?.viewModel.startTimer()
+                    self?.headerComponent.reloadPickerData()
+                    self?.headerComponent.selectDefaultRows()
             }
         }
     }
