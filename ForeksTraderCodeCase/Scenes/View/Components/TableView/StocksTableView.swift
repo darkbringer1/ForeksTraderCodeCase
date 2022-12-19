@@ -26,17 +26,10 @@ class StocksTableView: BaseView {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .darkGray
-//        tableView.refreshControl = UIRefreshControl()
-//        tableView.refreshControl?.addTarget(self, action: #selector(reloadTableViewData), for: .valueChanged)
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(reloadTableViewData), for: .valueChanged)
         return tableView
     }()
-    
-//    private lazy var spinner: UIActivityIndicatorView = {
-//        let spinner = UIActivityIndicatorView()
-//        spinner.frame = CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 44)
-//        return spinner
-//    }()
     
     override func setupView() {
         super.setupView()
@@ -54,12 +47,14 @@ class StocksTableView: BaseView {
     }
     
     func reloadTableView() {
-//        tableView.refreshControl?.endRefreshing()
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+            self?.tableView.refreshControl?.endRefreshing()
+        }
     }
     
     @objc func reloadTableViewData() {
-        
+        reloadTableView()
     }
 }
 

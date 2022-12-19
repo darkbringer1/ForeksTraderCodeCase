@@ -28,6 +28,7 @@
 		1E07E459294F513200E84BB8 /* StocksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E07E458294F513200E84BB8 /* StocksTableViewCell.swift */; };
 		1E5F5B23294F97B6004C196B /* DefaultNetworkOperationPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 1E5F5B22294F97B6004C196B /* DefaultNetworkOperationPackage */; };
 		1E5F5B26294F97D2004C196B /* BaseComponents in Frameworks */ = {isa = PBXBuildFile; productRef = 1E5F5B25294F97D2004C196B /* BaseComponents */; };
+		1EEB83D7294FAE2200E8C631 /* StocksHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB83D6294FAE2200E8C631 /* StocksHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		1E07E452294F45A600E84BB8 /* DataFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormatter.swift; sourceTree = "<group>"; };
 		1E07E456294F509400E84BB8 /* StocksTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableView.swift; sourceTree = "<group>"; };
 		1E07E458294F513200E84BB8 /* StocksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
+		1EEB83D6294FAE2200E8C631 /* StocksHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +226,7 @@
 		1E07E454294F507D00E84BB8 /* CellView */ = {
 			isa = PBXGroup;
 			children = (
+				1EEB83D5294FAE1400E8C631 /* StocksHeaderComponent */,
 				1E5F5B00294F8C59004C196B /* Cell */,
 				1E5F5AFF294F8C4F004C196B /* StockRowComponent */,
 			);
@@ -252,6 +255,14 @@
 				1E07E458294F513200E84BB8 /* StocksTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		1EEB83D5294FAE1400E8C631 /* StocksHeaderComponent */ = {
+			isa = PBXGroup;
+			children = (
+				1EEB83D6294FAE2200E8C631 /* StocksHeaderView.swift */,
+			);
+			path = StocksHeaderComponent;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +351,7 @@
 				1E07E40C294E0E5700E84BB8 /* SceneDelegate.swift in Sources */,
 				1E07E441294E13C400E84BB8 /* EndpointManager.swift in Sources */,
 				1E07E435294E126400E84BB8 /* SettingsServiceProvider.swift in Sources */,
+				1EEB83D7294FAE2200E8C631 /* StocksHeaderView.swift in Sources */,
 				1E07E447294E1B8700E84BB8 /* StockRowView.swift in Sources */,
 				1E07E42C294E10BD00E84BB8 /* StockViewController.swift in Sources */,
 				1E07E432294E110200E84BB8 /* StockViewBuilder.swift in Sources */,

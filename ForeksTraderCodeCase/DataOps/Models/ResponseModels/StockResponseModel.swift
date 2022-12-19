@@ -8,12 +8,23 @@
 import Foundation
 
 // MARK: - Welcome
-struct StockResponseModel: Codable {
-    var l: [L]?
-    var z: String?
-}
+//struct StockResponseModel: Codable {
+//    var l: [Stock]?
+//    var z: String?
+//}
 
-// MARK: - L
-struct L: Codable {
-    var tke, clo, pdd, las: String?
+typealias SymbolDetailItem = [String: String]
+
+struct StockResponseModel: Codable {
+    
+    enum SymbolKeys: String, CodingKey {
+        case list = "l"
+    }
+    
+    let details: [SymbolDetailItem]
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: SymbolKeys.self)
+        self.details = try container.decode([[String: String]].self, forKey: .list)
+    }
 }

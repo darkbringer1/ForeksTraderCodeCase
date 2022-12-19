@@ -13,8 +13,11 @@ typealias StocksResponseBlock = (Result<StockResponseModel, ErrorResponse>) -> V
 
 class StockViewModel {
     
-    let dataFormatter: DataFormatter
-    var viewState: ((ViewState) -> Void)?
+    private let dataFormatter: DataFormatter
+    private var viewState: ((ViewState) -> Void)?
+    private var requestModel: StockRequestModel?
+    private var firstQ: String?
+    private var secondQ: String?
     
     init(dataFormatter: DataFormatter) {
         self.dataFormatter = dataFormatter
@@ -24,13 +27,14 @@ class StockViewModel {
         viewState = completion
     }
     
-    func getSettings() {
+    func getSettings(with completion: @autoclosure @escaping () -> Void) {
         viewState?(.loading)
         do {
             guard let urlRequest = try? SettingsServiceProvider().returnUrlRequest(headerType: .contentTypeUTF8) else { return }
             debugPrint(urlRequest)
             fireSettingsApiCall(with: urlRequest, completion: settingsDataListener)
         }
+        completion()
     }
     
     private func fireSettingsApiCall(with urlRequest: URLRequest, completion: @escaping SettingsResponseBlock) {
@@ -42,7 +46,7 @@ class StockViewModel {
             case .success(let data):
 //                debugPrint(data)
                 self?.dataFormatter.setSettingsResponse(with: data)
-                self?.getStocks()
+                self?.viewState?(.done)
             case .failure(let error):
 //                debugPrint(error)
                 break
@@ -50,8 +54,9 @@ class StockViewModel {
     }
     
     func getStocks() {
+        viewState?(.loading)
         do {
-            guard let requestModel = getRequestModel(), let urlRequest = try? StockServiceProvider(request: requestModel).returnUrlRequest(headerType: .contentTypeUTF8) else { return }
+            guard let requestModel = requestModel, let urlRequest = try? StockServiceProvider(request: requestModel).returnUrlRequest(headerType: .contentTypeUTF8) else { return }
             debugPrint(urlRequest)
             fireStockApiCall(with: urlRequest, completion: stocksDataListener)
         }
@@ -72,25 +77,54 @@ class StockViewModel {
         }
     }
     
-    private func getRequestModel() -> StockRequestModel? {
-        guard let mypage = dataFormatter.getMyPagePairs(), let myPageDefaults = dataFormatter.getMyPageDefaults() else { return nil }
-        let fieldKeys = mypage.map({ $0.key ?? "" }).joined(separator: ",")
+    private func getRequestModel(row: Int, in component: Int) -> StockRequestModel? {
+        guard let myPageDefaults = dataFormatter.getMyPageDefaults(), let firstQ = firstQ, let secondQ = secondQ else { return nil }
         let stcsKeys = myPageDefaults.map({ $0.tke ?? "" }).joined(separator: "~")
-        return StockRequestModel(stcs: stcsKeys, fields: fieldKeys)
+        return StockRequestModel(stcs: stcsKeys, fields: firstQ + "," + secondQ)
     }
 }
 
 extension StockViewModel: StocksTableViewDataProvider {
     func numberOfItems() -> Int {
-        dataFormatter.numberOfItems()
+        debugPrint(dataFormatter.numberOfItems())
+        return dataFormatter.numberOfItems()
     }
     
     func cellForItem(at indexPath: IndexPath) -> StockRowData? {
-        dataFormatter.getCellData(by: indexPath.row)
+        return dataFormatter.getCellData(by: indexPath.row,
+                                         leftKey: firstQ ?? "",
+                                         rightKey: secondQ ?? "")
     }
     
     func didSelectItem(at indexPath: IndexPath) {
         debugPrint("Selected row \(indexPath.row)")
+    }
+}
+
+extension StockViewModel: StocksHeaderDataProvider {
+    func numberOfComponents() -> Int? {
+        2
+    }
+    
+    func numberOfRows(in component: Int) -> Int {
+        dataFormatter.getPickerCount() ?? 0
+    }
+    
+    func titleForRow(row: Int, in component: Int) -> String? {
+        dataFormatter.getPickerTitles(for: row)
+    }
+    
+    func didSelect(row: Int, in component: Int) {
+        switch component {
+            case 0:
+                firstQ = dataFormatter.firstSelected(row: row)
+            case 1:
+                secondQ = dataFormatter.secondSelected(row: row)
+            default:
+                break
+        }
+        requestModel = getRequestModel(row: row, in: component)
+        getStocks()
     }
 }
 

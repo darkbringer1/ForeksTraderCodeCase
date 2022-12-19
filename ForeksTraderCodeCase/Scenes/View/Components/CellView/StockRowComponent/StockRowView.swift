@@ -9,19 +9,18 @@ import UIKit
 import BaseComponents
 
 class StockRowData {
-    private(set) var direction: String
     private(set) var name: String
-    private(set) var criteria: String
-    private(set) var diff: String
+    private(set) var leftData: String
+    private(set) var rightData: String
+    private(set) var date: String
+    private(set) var state: StockState
     
-    init(direction: String,
-         name: String,
-         criteria: String,
-         diff: String) {
-        self.direction = direction
+    init(name: String, leftData: String, rightData: String, date: String, state: StockState) {
         self.name = name
-        self.criteria = criteria
-        self.diff = diff
+        self.leftData = leftData
+        self.rightData = rightData
+        self.date = date
+        self.state = state
     }
 }
 
@@ -34,7 +33,7 @@ class StockRowView: GenericBaseView<StockRowData> {
     }()
     
     private lazy var mainStackView: UIStackView = {
-        let temp = UIStackView(arrangedSubviews: [stockNameStack, criteriaLabel, diffLabel])
+        let temp = UIStackView(arrangedSubviews: [directionView, stockNameStack, leftLabel, rightLabel])
         temp.translatesAutoresizingMaskIntoConstraints = false
         temp.axis = .horizontal
         temp.alignment = .fill
@@ -42,10 +41,15 @@ class StockRowView: GenericBaseView<StockRowData> {
         return temp
     }()
     
+    private lazy var directionView: UIView = {
+        let temp = UIView()
+        temp.translatesAutoresizingMaskIntoConstraints = false
+        return temp
+    }()
+    
     private lazy var directionArrow: UIImageView = {
         let temp = UIImageView()
         temp.translatesAutoresizingMaskIntoConstraints = false
-        
         return temp
     }()
     
@@ -80,7 +84,7 @@ class StockRowView: GenericBaseView<StockRowData> {
         return temp
     }()
     
-    private lazy var criteriaLabel: UILabel = {
+    private lazy var leftLabel: UILabel = {
         let temp = UILabel()
         temp.translatesAutoresizingMaskIntoConstraints = false
         temp.textColor = .black
@@ -88,11 +92,11 @@ class StockRowView: GenericBaseView<StockRowData> {
         temp.lineBreakMode = .byWordWrapping
         temp.numberOfLines = 0
         temp.contentMode = .center
-        temp.textAlignment = .left
+        temp.textAlignment = .right
         return temp
     }()
     
-    private lazy var diffLabel: UILabel = {
+    private lazy var rightLabel: UILabel = {
         let temp = UILabel()
         temp.translatesAutoresizingMaskIntoConstraints = false
         temp.textColor = .black
@@ -100,7 +104,7 @@ class StockRowView: GenericBaseView<StockRowData> {
         temp.lineBreakMode = .byWordWrapping
         temp.numberOfLines = 0
         temp.contentMode = .center
-        temp.textAlignment = .left
+        temp.textAlignment = .right
         return temp
     }()
     
@@ -112,24 +116,41 @@ class StockRowView: GenericBaseView<StockRowData> {
     private func addComponents() {
         addSubview(containerView)
         containerView.addSubview(mainStackView)
+        directionView.addSubview(directionArrow)
         
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            containerView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: topAnchor),
             
             mainStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             mainStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16),
-            mainStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16)
-        ])}
+            mainStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+            
+            directionView.widthAnchor.constraint(equalToConstant: 15),
+            leftLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4),
+            rightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4),
+            stockNameStack.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width / 2) - 15)
+        ])
+        directionView.bounds = directionArrow.bounds
+    }
     
     override func loadDataView() {
         super.loadDataView()
         guard let data = getData() else { return }
-//        directionArrow.image = UIImage(systemName: data)
+        switch data.state {
+            case .stable:
+                break
+            case .increasing:
+                break
+            case .decreasing:
+                break
+        }
+        leftLabel.text = data.leftData
+        rightLabel.text = data.rightData
         stockName.text = data.name
-//        stockLastUpdated.text = Date().formatted()
+        stockLastUpdated.text = data.date
     }
 }
