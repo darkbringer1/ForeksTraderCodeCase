@@ -28,6 +28,7 @@
 		1E07E459294F513200E84BB8 /* StocksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E07E458294F513200E84BB8 /* StocksTableViewCell.swift */; };
 		1E5F5B23294F97B6004C196B /* DefaultNetworkOperationPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 1E5F5B22294F97B6004C196B /* DefaultNetworkOperationPackage */; };
 		1E5F5B26294F97D2004C196B /* BaseComponents in Frameworks */ = {isa = PBXBuildFile; productRef = 1E5F5B25294F97D2004C196B /* BaseComponents */; };
+		1E72F39A294FF6D500BF9B6F /* TextFieldWithPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E72F399294FF6D500BF9B6F /* TextFieldWithPadding.swift */; };
 		1EEB83D7294FAE2200E8C631 /* StocksHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB83D6294FAE2200E8C631 /* StocksHeaderView.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		1E07E452294F45A600E84BB8 /* DataFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormatter.swift; sourceTree = "<group>"; };
 		1E07E456294F509400E84BB8 /* StocksTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableView.swift; sourceTree = "<group>"; };
 		1E07E458294F513200E84BB8 /* StocksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksTableViewCell.swift; sourceTree = "<group>"; };
+		1E72F399294FF6D500BF9B6F /* TextFieldWithPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithPadding.swift; sourceTree = "<group>"; };
 		1EEB83D6294FAE2200E8C631 /* StocksHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -193,6 +195,7 @@
 		1E07E43E294E13B400E84BB8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1E72F398294FF6C800BF9B6F /* Extensions */,
 				1E07E43F294E13BA00E84BB8 /* EndpointManager */,
 			);
 			path = Utils;
@@ -255,6 +258,14 @@
 				1E07E458294F513200E84BB8 /* StocksTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		1E72F398294FF6C800BF9B6F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1E72F399294FF6D500BF9B6F /* TextFieldWithPadding.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		1EEB83D5294FAE1400E8C631 /* StocksHeaderComponent */ = {
@@ -343,6 +354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E72F39A294FF6D500BF9B6F /* TextFieldWithPadding.swift in Sources */,
 				1E07E40E294E0E5700E84BB8 /* ViewController.swift in Sources */,
 				1E07E42F294E10CA00E84BB8 /* StockViewModel.swift in Sources */,
 				1E07E40A294E0E5700E84BB8 /* AppDelegate.swift in Sources */,

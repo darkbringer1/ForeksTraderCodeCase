@@ -17,14 +17,16 @@ typealias SymbolDetailItem = [String: String]
 
 struct StockResponseModel: Codable {
     
+    let updateTime: Date = Date()
+    
     enum SymbolKeys: String, CodingKey {
-        case list = "l"
+        case stockList = "l"
     }
     
     let details: [SymbolDetailItem]
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: SymbolKeys.self)
-        self.details = try container.decode([[String: String]].self, forKey: .list)
+        self.details = try container.decode([[String: String]].self, forKey: .stockList)
     }
 }

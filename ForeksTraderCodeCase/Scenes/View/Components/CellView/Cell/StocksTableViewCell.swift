@@ -9,4 +9,8 @@ import UIKit
 import BaseComponents
 
 class StocksTableViewCell: GenericTableViewCell<StockRowData, StockRowView> {
+    override func addViewComponents() {
+        super.addViewComponents()
+        selectionStyle = .none
+    }
 }

@@ -18,6 +18,7 @@ class StockViewModel {
     private var requestModel: StockRequestModel?
     private var firstQ: String?
     private var secondQ: String?
+    private var timer: Timer?
     
     init(dataFormatter: DataFormatter) {
         self.dataFormatter = dataFormatter
@@ -27,14 +28,13 @@ class StockViewModel {
         viewState = completion
     }
     
-    func getSettings(with completion: @autoclosure @escaping () -> Void) {
+    func getSettings() {
         viewState?(.loading)
         do {
             guard let urlRequest = try? SettingsServiceProvider().returnUrlRequest(headerType: .contentTypeUTF8) else { return }
             debugPrint(urlRequest)
             fireSettingsApiCall(with: urlRequest, completion: settingsDataListener)
         }
-        completion()
     }
     
     private func fireSettingsApiCall(with urlRequest: URLRequest, completion: @escaping SettingsResponseBlock) {
@@ -98,6 +98,12 @@ extension StockViewModel: StocksTableViewDataProvider {
     
     func didSelectItem(at indexPath: IndexPath) {
         debugPrint("Selected row \(indexPath.row)")
+    }
+    func startTimer() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.getStocks()
+        }
     }
 }
 

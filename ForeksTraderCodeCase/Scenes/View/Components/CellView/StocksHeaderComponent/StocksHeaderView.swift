@@ -23,7 +23,7 @@ class StocksHeaderView: GenericBaseView<StocksHeaderData> {
     private lazy var containerView: UIView = {
         let temp = UIView()
         temp.translatesAutoresizingMaskIntoConstraints = false
-        temp.backgroundColor = .white
+        temp.backgroundColor = .clear
         return temp
     }()
     
@@ -49,22 +49,23 @@ class StocksHeaderView: GenericBaseView<StocksHeaderData> {
     }()
     
     
-    private lazy var textFieldOne: UITextField = {
-        let temp = UITextField()
+    private lazy var textFieldOne: TextFieldWithPadding = {
+        let temp = TextFieldWithPadding()
         temp.translatesAutoresizingMaskIntoConstraints = false
         temp.inputView = pickerView
-        temp.backgroundColor = .gray
+        temp.backgroundColor = .lightGray
         temp.layer.cornerRadius = 6
         temp.layer.borderWidth = 1
-        
         return temp
     }()
     
-    private lazy var textFieldTwo: UITextField = {
-        let temp = UITextField()
+    private lazy var textFieldTwo: TextFieldWithPadding = {
+        let temp = TextFieldWithPadding()
         temp.translatesAutoresizingMaskIntoConstraints = false
         temp.inputView = pickerView
-        temp.backgroundColor = .gray
+        temp.backgroundColor = .lightGray
+        temp.layer.cornerRadius = 6
+        temp.layer.borderWidth = 1
         return temp
     }()
     
@@ -130,6 +131,7 @@ class StocksHeaderView: GenericBaseView<StocksHeaderData> {
             self?.textFieldOne.text = self?.dataProvider?.titleForRow(row: 0, in: 0)
             self?.textFieldTwo.text = self?.dataProvider?.titleForRow(row: 0, in: 1)
         }
+        reloadPickerData()
     }
 }
 

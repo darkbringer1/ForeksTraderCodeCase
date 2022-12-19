@@ -22,7 +22,7 @@ class StockViewController: BaseViewController<StockViewModel> {
     
     override func prepareViewControllerConfigurations() {
         super.prepareViewControllerConfigurations()
-        view.backgroundColor = .white
+        view.backgroundColor = .lightGray
         addTableView()
         addHeaderView()
         addSpinner()
@@ -68,27 +68,18 @@ class StockViewController: BaseViewController<StockViewModel> {
         ])
     }
     private func subscribeToViewModelListeners() {
-        isLoading(true)
-        viewModel.getSettings(with: self.headerComponent.selectDefaultRows())
+        viewModel.getSettings()
+        viewModel.startTimer()
         viewModel.subscribeToViewState { [weak self] state in
             switch state {
                 case .loading:
-                    self?.isLoading(true)
+                    break
                 case .done:
                     self?.mainComponent.reloadTableView()
                     self?.headerComponent.reloadPickerData()
-                    self?.isLoading(false)
                 case .error:
                     break
             }
-        }
-    }
-    
-    private func isLoading(_ loading: Bool) {
-        mainComponent.isHidden = loading
-        spinner.isHidden = !loading
-        DispatchQueue.main.async { [weak self] in
-           self?.spinner.startAnimating()
         }
     }
 }

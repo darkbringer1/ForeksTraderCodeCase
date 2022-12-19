@@ -25,9 +25,9 @@ class StocksTableView: BaseView {
         tableView.register(StocksTableViewCell.self, forCellReuseIdentifier: StocksTableViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.separatorStyle = .none
         tableView.refreshControl = UIRefreshControl()
         tableView.refreshControl?.addTarget(self, action: #selector(reloadTableViewData), for: .valueChanged)
+        tableView.backgroundColor = .clear
         return tableView
     }()
     

@@ -28,7 +28,7 @@ class StockRowView: GenericBaseView<StockRowData> {
     private lazy var containerView: UIView = {
         let temp = UIView()
         temp.translatesAutoresizingMaskIntoConstraints = false
-        temp.backgroundColor = .white
+        temp.backgroundColor = .clear
         return temp
     }()
     
@@ -44,12 +44,14 @@ class StockRowView: GenericBaseView<StockRowData> {
     private lazy var directionView: UIView = {
         let temp = UIView()
         temp.translatesAutoresizingMaskIntoConstraints = false
+        temp.layer.cornerRadius = 4
         return temp
     }()
     
     private lazy var directionArrow: UIImageView = {
         let temp = UIImageView()
         temp.translatesAutoresizingMaskIntoConstraints = false
+        temp.tintColor = .white
         return temp
     }()
     
@@ -69,6 +71,7 @@ class StockRowView: GenericBaseView<StockRowData> {
         temp.numberOfLines = 0
         temp.contentMode = .center
         temp.textAlignment = .left
+        temp.font = UIFont.systemFont(ofSize: 14, weight: .heavy)
         return temp
     }()
     
@@ -81,6 +84,7 @@ class StockRowView: GenericBaseView<StockRowData> {
         temp.numberOfLines = 0
         temp.contentMode = .center
         temp.textAlignment = .left
+        temp.font = UIFont.systemFont(ofSize: 10, weight: .light)
         return temp
     }()
     
@@ -93,6 +97,7 @@ class StockRowView: GenericBaseView<StockRowData> {
         temp.numberOfLines = 0
         temp.contentMode = .center
         temp.textAlignment = .right
+        temp.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         return temp
     }()
     
@@ -105,6 +110,7 @@ class StockRowView: GenericBaseView<StockRowData> {
         temp.numberOfLines = 0
         temp.contentMode = .center
         temp.textAlignment = .right
+        temp.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         return temp
     }()
     
@@ -130,27 +136,49 @@ class StockRowView: GenericBaseView<StockRowData> {
             mainStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
             
             directionView.widthAnchor.constraint(equalToConstant: 15),
+            directionView.centerXAnchor.constraint(equalTo: directionArrow.centerXAnchor),
+            directionView.centerYAnchor.constraint(equalTo: directionArrow.centerYAnchor),
             leftLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4),
             rightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4),
-            stockNameStack.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width / 2) - 15)
+            stockNameStack.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width / 2)),
         ])
-        directionView.bounds = directionArrow.bounds
     }
     
     override func loadDataView() {
         super.loadDataView()
         guard let data = getData() else { return }
-        switch data.state {
-            case .stable:
-                break
-            case .increasing:
-                break
-            case .decreasing:
-                break
-        }
+        
         leftLabel.text = data.leftData
         rightLabel.text = data.rightData
         stockName.text = data.name
         stockLastUpdated.text = data.date
+        updateCell(with: data.state)
+    }
+    
+    private func updatedCell() {
+        UIView.animate(withDuration: 1) {
+            self.containerView.backgroundColor = .gray
+        } completion: { finished in
+            self.containerView.backgroundColor = .clear
+        }
+    }
+    
+    private func updateCell(with state: StockState) {
+        switch state {
+            case .stable:
+                directionArrow.image = UIImage(systemName: "pause")
+                directionView.backgroundColor = .gray
+                rightLabel.textColor = .black
+            case .increasing:
+                updatedCell()
+                directionArrow.image = UIImage(systemName: "chevron.up")
+                directionView.backgroundColor = .green
+                rightLabel.textColor = .green
+            case .decreasing:
+                updatedCell()
+                directionArrow.image = UIImage(systemName: "chevron.down")
+                directionView.backgroundColor = .red
+                rightLabel.textColor = .red
+        }
     }
 }
