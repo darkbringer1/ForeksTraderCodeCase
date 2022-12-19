@@ -126,10 +126,16 @@ class StocksHeaderView: GenericBaseView<StocksHeaderData> {
     
     func selectDefaultRows() {
         DispatchQueue.main.async { [weak self] in
-            self?.pickerView.selectRow(0, inComponent: 0, animated: true)
-            self?.pickerView.selectRow(0, inComponent: 1, animated: true)
-            self?.textFieldOne.text = self?.dataProvider?.titleForRow(row: 0, in: 0)
-            self?.textFieldTwo.text = self?.dataProvider?.titleForRow(row: 0, in: 1)
+            if (self?.dataProvider?.numberOfRows(in: 0) ?? 0) > 0 && self?.pickerView.selectedRow(inComponent: 0) == 0 {
+                self?.pickerView.selectRow(0, inComponent: 0, animated: true)
+                self?.textFieldOne.text = self?.dataProvider?.titleForRow(row: 0, in: 0)
+                self?.dataProvider?.didSelect(row: 0, in: 0)
+            }
+            if (self?.dataProvider?.numberOfRows(in: 1) ?? 0) > 0 && self?.pickerView.selectedRow(inComponent: 1) == 0 {
+                self?.pickerView.selectRow(0, inComponent: 1, animated: true)
+                self?.textFieldTwo.text = self?.dataProvider?.titleForRow(row: 0, in: 1)
+                self?.dataProvider?.didSelect(row: 0, in: 1)
+            }
         }
         reloadPickerData()
     }

@@ -7,26 +7,17 @@
 
 import Foundation
 
-// MARK: - Welcome
-//struct StockResponseModel: Codable {
-//    var l: [Stock]?
-//    var z: String?
-//}
-
-typealias SymbolDetailItem = [String: String]
-
 struct StockResponseModel: Codable {
-    
     let updateTime: Date = Date()
     
-    enum SymbolKeys: String, CodingKey {
+    enum StockKeys: String, CodingKey {
         case stockList = "l"
     }
     
-    let details: [SymbolDetailItem]
+    let detailsList: [[String: String]]
     
     init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: SymbolKeys.self)
-        self.details = try container.decode([[String: String]].self, forKey: .stockList)
+        let container = try decoder.container(keyedBy: StockKeys.self)
+        self.detailsList = try container.decode(Array.self, forKey: .stockList)
     }
 }

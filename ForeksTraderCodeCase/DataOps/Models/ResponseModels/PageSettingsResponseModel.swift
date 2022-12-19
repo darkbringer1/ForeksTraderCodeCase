@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 struct PageSettingsResponseModel: Codable {
     var mypageDefaults: [MypageDefault]?
     var mypage: [Mypage]?

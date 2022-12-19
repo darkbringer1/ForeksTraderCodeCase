@@ -53,6 +53,7 @@ class StockViewController: BaseViewController<StockViewModel> {
     
     private func subscribeToViewModelListeners() {
         viewModel.getSettings()
+        viewModel.startTimer()
         viewModel.subscribeToViewState { [weak self] state in
             switch state {
                 case .loading:
@@ -63,10 +64,15 @@ class StockViewController: BaseViewController<StockViewModel> {
                 case .error:
                     break
                 case .headerDone:
-                    self?.viewModel.startTimer()
                     self?.headerComponent.reloadPickerData()
                     self?.headerComponent.selectDefaultRows()
+                    self?.viewModel.restartTimer()
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.stopTimer()
     }
 }

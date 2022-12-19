@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 protocol DataFormatterProtocol {
     func setSettingsResponse(with response: PageSettingsResponseModel)
     func getMyPagePairs() -> [Mypage]?
@@ -20,8 +21,8 @@ protocol DataFormatterProtocol {
     func firstSelected(row: Int) -> String?
     func secondSelected(row: Int) -> String?
     func selectedPickerData(row: Int, in component: Int) -> (String, String)
-    func calculateStockState(by index: Int) -> StockState
 }
+
 class DataFormatter: DataFormatterProtocol {
     private var pageSettings: PageSettingsResponseModel?
     private var stocks: StockResponseModel?
@@ -50,22 +51,24 @@ class DataFormatter: DataFormatterProtocol {
     }
     
     func getCellData(by index: Int, leftKey: String, rightKey: String) -> StockRowData? {
-        guard let stockItem = newStocks?.details else { return nil }
-        let left = stockItem[index][leftKey] ?? ""
-        let right = stockItem[index][rightKey] ?? ""
+        guard let stockItem = stocks?.detailsList else { return nil }
         let name = stockItem[index]["tke"] ?? ""
         let date = stockItem[index]["clo"] ?? ""
-        let state = calculateStockState(by: index)
-        return StockRowData(name: name, leftData: left, rightData: right, date: date, state: state)
+        return StockRowData(name: name,
+                            leftData: leftKey,
+                            rightData: rightKey,
+                            date: date,
+                            newStockItem: newStocks?.detailsList[index],
+                            oldStockItem: stocks?.detailsList[index])
     }
     
     func getStockDetail(index: Int, forkey: String) -> String {
-        guard let stockItem = stocks?.details[index] else { return "" }
+        guard let stockItem = stocks?.detailsList[index] else { return "" }
         return stockItem[forkey] ?? ""
     }
     
     func numberOfItems() -> Int {
-        return stocks?.details.count ?? 0
+        return stocks?.detailsList.count ?? 0
     }
     
     func getPickerData() -> [Mypage]? {
@@ -102,27 +105,4 @@ class DataFormatter: DataFormatterProtocol {
         }
         return (one, two)
     }
-    
-    func calculateStockState(by index: Int) -> StockState {
-        guard let oldStockItem = stocks?.details,
-              let newStockItem = newStocks?.details else { return .stable }
-        let formatter = NumberFormatter()
-        formatter.locale = Locale(identifier: "tr_TR")
-        let oldLeft = formatter.number(from: oldStockItem[index]["las"] ?? "") ?? 0
-        let newLeft = formatter.number(from: newStockItem[index]["las"] ?? "") ?? 0
-        
-        if newLeft.doubleValue < oldLeft.doubleValue {
-            return .decreasing
-        } else if newLeft.doubleValue > oldLeft.doubleValue {
-            return .increasing
-        } else {
-            return .stable
-        }
-    }
-}
-
-enum StockState {
-    case stable
-    case increasing
-    case decreasing
 }

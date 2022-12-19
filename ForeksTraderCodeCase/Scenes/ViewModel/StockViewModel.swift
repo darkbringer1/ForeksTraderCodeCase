@@ -32,7 +32,6 @@ class StockViewModel {
         viewState?(.loading)
         do {
             guard let urlRequest = try? SettingsServiceProvider().returnUrlRequest(headerType: .contentTypeUTF8) else { return }
-            debugPrint(urlRequest)
             fireSettingsApiCall(with: urlRequest, completion: settingsDataListener)
         }
     }
@@ -44,11 +43,10 @@ class StockViewModel {
     lazy var settingsDataListener: SettingsResponseBlock = { [weak self] response in
         switch response {
             case .success(let data):
-//                debugPrint(data)
                 self?.dataFormatter.setSettingsResponse(with: data)
                 self?.viewState?(.headerDone)
             case .failure(let error):
-//                debugPrint(error)
+                debugPrint(error)
                 break
         }
     }
@@ -57,7 +55,6 @@ class StockViewModel {
         viewState?(.loading)
         do {
             guard let requestModel = requestModel, let urlRequest = try? StockServiceProvider(request: requestModel).returnUrlRequest(headerType: .contentTypeUTF8) else { return }
-            debugPrint(urlRequest)
             fireStockApiCall(with: urlRequest, completion: stocksDataListener)
         }
     }
@@ -68,11 +65,11 @@ class StockViewModel {
     
     private lazy var stocksDataListener: StocksResponseBlock = { [weak self] response in
         switch response {
-            case.success(let data):
+            case .success(let data):
                 self?.dataFormatter.setStocksResponse(with: data)
                 self?.viewState?(.done)
             case .failure(let error):
-//                debugPrint(error)
+                debugPrint(error)
                 break
         }
     }
@@ -86,12 +83,11 @@ class StockViewModel {
 
 extension StockViewModel: StocksTableViewDataProvider {
     func numberOfItems() -> Int {
-        debugPrint(dataFormatter.numberOfItems())
-        return dataFormatter.numberOfItems()
+        dataFormatter.numberOfItems()
     }
     
     func cellForItem(at indexPath: IndexPath) -> StockRowData? {
-        return dataFormatter.getCellData(by: indexPath.row,
+        dataFormatter.getCellData(by: indexPath.row,
                                          leftKey: firstQ ?? "",
                                          rightKey: secondQ ?? "")
     }
@@ -105,6 +101,16 @@ extension StockViewModel: StocksTableViewDataProvider {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.getStocks()
         }
+    }
+    
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func restartTimer() {
+        stopTimer()
+        startTimer()
     }
 }
 
@@ -131,7 +137,7 @@ extension StockViewModel: StocksHeaderDataProvider {
                 break
         }
         requestModel = getRequestModel(row: row)
-        getStocks()
+        restartTimer()
     }
 }
 
